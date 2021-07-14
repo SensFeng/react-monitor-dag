@@ -88,6 +88,15 @@ export let diffPropsData = (newData, oldData, diffOptions = []) => {
       }, a[diffOptions[0]] === b[diffOptions[0]]);
     })
   }
+
+  let addGroups = _.differenceWith(newData.groups, oldData.groups, (a, b) => {
+    return a.id === b.id;
+  });
+
+  let removeGroups = _.differenceWith(oldData.groups, newData.groups, (a, b) => {
+    return a.id === b.id;
+  });
+
   let addEdges = _.differenceWith(newData.edges, oldData.edges, (a, b) => {
     return (
       a.sourceNode === b.sourceNode &&
@@ -96,6 +105,7 @@ export let diffPropsData = (newData, oldData, diffOptions = []) => {
       a.targetEndpoint === b.targetEndpoint
     );
   });
+
   let rmEdges = _.differenceWith(oldData.edges, newData.edges, (a, b) => {
     return (
       a.sourceNode === b.sourceNode &&
@@ -104,6 +114,7 @@ export let diffPropsData = (newData, oldData, diffOptions = []) => {
       a.targetEndpoint === b.targetEndpoint
     );
   });
+
   let updateStatus = [];
   newData.nodes.forEach((_newNode) => {
     let oldNode = _.find(oldData, (_oldNode) => {
@@ -123,6 +134,8 @@ export let diffPropsData = (newData, oldData, diffOptions = []) => {
     updateNodes,
     addEdges,
     rmEdges,
-    updateStatus
+    updateStatus,
+    addGroups,
+    removeGroups
   };
 }

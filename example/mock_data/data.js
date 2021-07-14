@@ -199,6 +199,16 @@ export default {
       group: 'group',
       status: 'success',
     },
+    // {
+    //   id: '21',
+    //   title: 'node_groups',
+    //   // className: 'icon-background-color',
+    //   // iconType: 'icon-guanlian',
+    //   top: 100,
+    //   left: 150,
+    //   group: 'group1',
+    //   status: 'success',
+    // },
   ],
   edges: [
     {
@@ -278,5 +288,27 @@ export default {
       orientation: [0, 1],
       pos: [0.5, 0],
     }]
-  }],
+  },
+  {
+    id: 'group1',
+    options: {
+      title: '测试1'
+    },
+    top: 400,
+    left: 800,
+    width: 400,
+    height: 200,
+    resize: true,
+    // draggable: false,
+    // endpoints: [{
+    //   id: 'groupTop1',
+    //   orientation: [0, -1],
+    //   pos: [0.5, 0],
+    // },{
+    //   id: 'groupBottom1',
+    //   orientation: [0, 1],
+    //   pos: [0.5, 0],
+    // }]
+  }
+],
 };

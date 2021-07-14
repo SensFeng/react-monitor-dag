@@ -46,7 +46,40 @@ const groupMenu = [{
   }
 }]
 const Demo = () => {
+  // const [canvasData, setCanvasData] = useState({nodes: [], edges: [], groups: []});
   const [canvasData, setCanvasData] = useState(mockData);
+
+  useEffect(() => {
+    // let group = {
+    //   id: 'group1',
+    //   options: {
+    //     title: '测试1'
+    //   },
+    //   top: 400,
+    //   left: 800,
+    //   width: 400,
+    //   height: 200,
+    //   resize: true,
+    // };
+    // let node = {
+    //   id: '21',
+    //   title: 'node_groups',
+    //   // className: 'icon-background-color',
+    //   // iconType: 'icon-guanlian',
+    //   top: 100,
+    //   left: 150,
+    //   group: 'group1',
+    //   status: 'success',
+    // }
+    let newData = _.cloneDeep(canvasData);
+    newData.groups = newData.groups.filter(group => {
+      return group.id === 'group'
+    });
+    // newData.nodes.push(node);
+    console.log('newData', newData);
+    setCanvasData(newData);
+  }, []);
+
   const nodeMenu = [{
     key: 'detail',
     title: '节点信息',
@@ -67,6 +100,9 @@ const Demo = () => {
     nodeMenu={nodeMenu}
     edgeMenu={edgeMenu}
     groupMenu={groupMenu}
+    onLoaded={(canvas) => {
+      console.log('canvas实例', canvas.getDataMap())
+    }}
     config={{
       focusCenter: true,
       direction: 'top-bottom',

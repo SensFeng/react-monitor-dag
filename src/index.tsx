@@ -179,8 +179,8 @@ export default class MonitorDag extends React.Component<ComProps, any> {
     }
     this.canvas = new Canvas(canvasObj);
     setTimeout(() => {
-      this.canvas.draw(result, (data) => {
-        this.props.onLoaded && this.props.onLoaded(data);
+      this.canvas.draw(result, () => {
+        this.props.onLoaded && this.props.onLoaded(this.canvas);
         let minimap = _.get(this, 'props.config.minimap', {});
         const minimapCfg = _.assign({}, minimap.config, {
           events: [
@@ -257,7 +257,21 @@ export default class MonitorDag extends React.Component<ComProps, any> {
       data: _.cloneDeep(newProps.data),
       registerStatus: _.cloneDeep(newProps.registerStatus)
     });
+    console.log('result', result);
     let diffInfo = diffPropsData(result, this.canvasData, _.get(this, 'props.config.diffOptions', []));
+    console.log('diffInfo', diffInfo);
+    if(diffInfo.addGroups.length > 0) {
+      diffInfo.addGroups.forEach(_addGroup => {
+        this.canvas.addGroup(_addGroup);
+      })
+    }
+    if(diffInfo.removeGroups.length > 0) {
+      diffInfo.removeGroups.forEach(_removeGroup => {
+        console.log('_removeGroup.id', _removeGroup.id);
+        this.canvas.removeGroup(_removeGroup.id);
+      })
+    }
+  
     if (diffInfo.rmNodes.length > 0) {
       this.canvas.removeNodes(diffInfo.rmNodes.map(item => item.id));
     }
@@ -274,6 +288,7 @@ export default class MonitorDag extends React.Component<ComProps, any> {
         return edge.options;
       }), true);
     }
+
     if (diffInfo.addEdges.length > 0) {
       this.canvas.addEdges(diffInfo.addEdges);
     }
